@@ -33,6 +33,10 @@
 #ifndef __YM2151_H__
 #define __YM2151_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef void device_t;
 typedef short stream_sample_t;
 typedef int offs_t;
@@ -88,5 +92,9 @@ void ym2151_set_irq_handler(void *chip, void (*handler)(device_t *device, int ir
 
 /* set port write handler on YM2151 chip number 'n'*/
 void ym2151_set_port_write_handler(void *chip, void (*handler)(device_t *, offs_t, UINT8));
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*__YM2151_H__*/

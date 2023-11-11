@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdarg.h>
 
 #include "../gamdx/mxdrvg/mxdrvg.h"
 
@@ -225,8 +226,7 @@ void help() {
 }
 
 
-
-int main(int argc, char **argv) {
+__stdargs int main(int argc, char **argv) {
   int MDX_BUF_SIZE = 256 * 1024;
   int PDX_BUF_SIZE = 1024 * 1024;
   int SAMPLE_RATE = 44100;

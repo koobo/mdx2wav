@@ -6,7 +6,9 @@
 
 //#include "emu.h"
 #include <stdio.h>
-
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
 #include "ym2151.h"
 
 #define M_PI 3.14159265358979323846
@@ -1374,13 +1376,13 @@ void ym2151_write_reg(void *_chip, int r, int v)
 	}
 }
 
-
+/*
 static TIMER_CALLBACK( cymfile_callback )
 {
 	if (cymfile)
 		fputc( (unsigned char)0, cymfile );
 }
-
+*/
 
 int ym2151_read_status( void *_chip )
 {
@@ -1525,7 +1527,7 @@ void * ym2151_init(device_t *device, int clock, int rate)
 #if defined(USE_MAME_TIMERS)
 	PSG = auto_alloc(device->machine(), YM2151);
 #else
-	PSG = malloc(sizeof(YM2151));
+	PSG = (YM2151*) malloc(sizeof(YM2151));
 #endif
 
 	memset(PSG, 0, sizeof(YM2151));
