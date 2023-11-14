@@ -26,7 +26,7 @@ clean:
 	rm $(TARGET) $(TARGET).sym
 	
 $(TARGET).sym: $(SRC)
-	$(GPP) $(CFLAGS) -Wl,-Map,mdx2wav.map,--cref $^ -o $@
+	$(GPP) $(CFLAGS) -Wl,-Map,$(TARGET).map,--cref $^ -o $@
 
 $(TARGET): $(TARGET).sym
 	$(STRIP) $^ -o $@
