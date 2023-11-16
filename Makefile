@@ -1,32 +1,25 @@
-# Cross-compile to Amiga
-
-VBCC ?= /opt/amiga
-GCC ?= $(VBCC)/bin/m68k-amigaos-gcc
-GPP ?= $(VBCC)/bin/m68k-amigaos-g++
-STRIP ?= $(VBCC)/bin/m68k-amigaos-strip
-OBJCOPY ?= $(VBCC)/bin/m68k-amigaos-objcopy
-CFLAGS :=  -O2 -m68060 -mhard-float -noixemul -fomit-frame-pointer -mno-bitfield
-
-TARGET := mdx2wav
-
-SRC := src/mdx2wav.cpp \
-	gamdx/downsample/downsample.cpp \
-	gamdx/fmgen/fmgen.cpp  \
-	gamdx/fmgen/fmtimer.cpp  \
-	gamdx/fmgen/opm.cpp \
-	gamdx/mxdrvg/so.cpp \
-	gamdx/mxdrvg/opm_delegate.cpp \
-	gamdx/pcm8/pcm8.cpp \
-	gamdx/pcm8/x68pcm8.cpp \
-	gamdx/mame/ym2151.c 
-
-all: $(TARGET)
+all:
+	make -f Makefile.000
+	make -f Makefile.020
+	make -f Makefile.020fpu
+	make -f Makefile.040
+	make -f Makefile.060
 
 clean:
-	rm $(TARGET) $(TARGET).sym
-	
-$(TARGET).sym: $(SRC)
-	$(GPP) $(CFLAGS) -Wl,-Map,$(TARGET).map,--cref $^ -o $@
+	make -f Makefile.000 clean
+	make -f Makefile.020 clean
+	make -f Makefile.020fpu clean
+	make -f Makefile.040 clean
+	make -f Makefile.060 clean
 
-$(TARGET): $(TARGET).sym
-	$(STRIP) $^ -o $@
+dist:
+	rm -f mdx2wav.lha
+	lha a mdx2wav.lha mdx2wav.000
+	lha a mdx2wav.lha mdx2wav.020
+	lha a mdx2wav.lha mdx2wav.020fpu
+	lha a mdx2wav.lha mdx2wav.040
+	lha a mdx2wav.lha mdx2wav.060
+	lha a mdx2wav.lha mdx2wav.readme
+
+
+

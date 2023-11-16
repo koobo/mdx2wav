@@ -1,0 +1,3 @@
+TARGET=mdx2wav.040
+CPUOPT=-m68040
+include Makefile.common
