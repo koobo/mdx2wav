@@ -222,15 +222,18 @@ void help() {
     "               mdx2wav -t xxx.mdx | iconv -f SHIFT-JIS -t utf-8\n"
     "  -v        : print version.\n"
     "  -V        : verbose, write debug log to stderr.\n"
+    "  -o        : optional output file to use instead of stdout.\n"
     );
 }
 
 
-__stdargs int main(int argc, char **argv) {
+int main(int argc, char **argv) {
   int MDX_BUF_SIZE = 256 * 1024;
   int PDX_BUF_SIZE = 1024 * 1024;
   int SAMPLE_RATE = 44100;
   int filter_mode = 0;
+  char *out_file_name = NULL;
+  int out_file = 0;
 
   bool measure_play_time = false;
   bool get_title = false;
@@ -240,8 +243,11 @@ __stdargs int main(int argc, char **argv) {
   char ym2151_type[8] = "fmgen";
 
   int opt;
-  while ((opt = getopt(argc, argv, "d:e:fl:mr:tvV")) != -1) {
+  while ((opt = getopt(argc, argv, "o:d:e:fl:mr:tvV")) != -1) {
     switch (opt) {
+      case 'o':
+        out_file_name = optarg;
+        break;  
       case 'd':
         max_song_duration = atof(optarg);
         break;
@@ -325,6 +331,20 @@ __stdargs int main(int argc, char **argv) {
 
   short *audio_buf = new short [AUDIO_BUF_SAMPLES * 2];
 
+  if (out_file_name)
+  {
+      if (verbose)
+      {
+          fprintf(stderr, "Open %s\n", out_file_name);
+      }
+      out_file = open(out_file_name, O_WRONLY | O_CREAT);
+      if (!out_file)
+      {
+          fprintf(stderr, "Error opening output\n");
+          goto exit;
+      }
+  }
+
   for (int i = 0; song_duration == 0.0f || 1.0f * i * AUDIO_BUF_SAMPLES / SAMPLE_RATE < song_duration; i++) {
     if (MXDRVG_GetTerminated()) {
       break;
@@ -335,13 +355,28 @@ __stdargs int main(int argc, char **argv) {
       break;
     }
 
-
-    fwrite(audio_buf, len, 4, stdout);
+    if (out_file)
+    {
+        if (write(out_file, audio_buf, len * 4) == -1)
+        {
+            fprintf(stderr, "Error writing output\n");
+            break;
+        }
+    }
+    else
+    {
+        fwrite(audio_buf, len, 4, stdout);
+    }
   }
-
+exit:
   MXDRVG_End();
 
   delete []audio_buf;
+
+  if (out_file)
+  {
+      close(out_file);
+  }
 
   if (verbose) {
     fprintf(stderr, "completed.\n");
