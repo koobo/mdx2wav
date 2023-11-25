@@ -1,3 +1,10 @@
+Short: Convert MDX music files to PCM data
+Author: mitsuman
+Uploader: kpk@iki.fi (K-P Koljonen)
+Type: mus/misc
+Version: 1.0
+Architecture: m68k-amigaos >= 2.0
+
 This is an Amiga port of the commandline tool "mdx2wav"
 (https://github.com/mitsuman/mdx2wav) by mitsuman.
 

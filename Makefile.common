@@ -5,7 +5,7 @@ GCC ?= $(VBCC)/bin/m68k-amigaos-gcc
 GPP ?= $(VBCC)/bin/m68k-amigaos-g++
 STRIP ?= $(VBCC)/bin/m68k-amigaos-strip
 OBJCOPY ?= $(VBCC)/bin/m68k-amigaos-objcopy
-CFLAGS := $(CPUOPT) -O2 -noixemul -fomit-frame-pointer -fno-rtti -fno-exceptions
+CFLAGS := $(CPUOPT) -O2 -noixemul -fomit-frame-pointer -fno-rtti -fno-exceptions -Wstack-usage=3000
 
 SRC := src/mdx2wav.cpp \
 	gamdx/downsample/downsample.cpp \

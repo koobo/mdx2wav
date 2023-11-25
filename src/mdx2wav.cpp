@@ -216,7 +216,7 @@ void help() {
     "  -f        : enable fadeout.\n"
     "  -l <loop> : set loop limit. (default:2)\n"
     "  -m        : measure play time as sec.\n"
-    "  -r <rate> : set sampling rate. (default:44100)\n"
+    "  -r <rate> : set sampling rate. (default:44100, allowed:22050,44100,48000,62500)\n"
     "  -t        : get song title (charset is SHIFT-JIS).\n"
     "              if you need other charset, try following command:\n"
     "               mdx2wav -t xxx.mdx | iconv -f SHIFT-JIS -t utf-8\n"
