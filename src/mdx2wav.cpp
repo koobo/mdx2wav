@@ -223,6 +223,7 @@ void help() {
     "  -v        : print version.\n"
     "  -V        : verbose, write debug log to stderr.\n"
     "  -o        : optional output file to use instead of stdout.\n"
+    "  -p <file> : write play time into given file.\n"
     );
 }
 
@@ -233,6 +234,7 @@ int main(int argc, char **argv) {
   int SAMPLE_RATE = 44100;
   int filter_mode = 0;
   char *out_file_name = NULL;
+  char *out_playtime_file_name = NULL;
   int out_file = 0;
 
   bool measure_play_time = false;
@@ -243,10 +245,13 @@ int main(int argc, char **argv) {
   char ym2151_type[8] = "fmgen";
 
   int opt;
-  while ((opt = getopt(argc, argv, "o:d:e:fl:mr:tvV")) != -1) {
+  while ((opt = getopt(argc, argv, "p:o:d:e:fl:mr:tvV")) != -1) {
     switch (opt) {
       case 'o':
         out_file_name = optarg;
+        break;  
+      case 'p':
+        out_playtime_file_name = optarg;
         break;  
       case 'd':
         max_song_duration = atof(optarg);
@@ -342,6 +347,22 @@ int main(int argc, char **argv) {
       {
           fprintf(stderr, "Error opening output\n");
           goto exit;
+      }
+  }
+
+
+  if (out_playtime_file_name)
+  {
+      if (verbose)
+      {
+          fprintf(stderr, "Write %s\n", out_playtime_file_name);
+      }
+      int out = open(out_playtime_file_name, O_WRONLY | O_CREAT);
+      if (out)
+      {
+        int playtime = song_duration + 0.5f;
+        write(out, &playtime, 4);
+        close(out);
       }
   }
 
