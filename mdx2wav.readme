@@ -11,3 +11,6 @@ This is an Amiga port of the commandline tool "mdx2wav"
 mdx2wav is a converter to make raw pcm data from MDX files. MDX is a
 major sound format of Sharp X68000 in the 1990s. mdx2wav dumps 16bit stereo
 44.1kHz pcm data to stdout.
+
+Select a suitable version for your CPU. 
+Built for Amiga by K-P in November 2023.
